@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="hulichao_framework:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/hulichao_framework_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="hulichao_framework/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="hulichao_framework" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
