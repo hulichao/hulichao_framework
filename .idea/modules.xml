@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+
       <module fileurl="file://$PROJECT_DIR$/hulichao_framework.iml" filepath="$PROJECT_DIR$/hulichao_framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/myStrutsMVC/myStrutsMVC.iml" filepath="$PROJECT_DIR$/myStrutsMVC/myStrutsMVC.iml" />
       <module fileurl="file://$PROJECT_DIR$/myWebServer/myWebServer.iml" filepath="$PROJECT_DIR$/myWebServer/myWebServer.iml" />
