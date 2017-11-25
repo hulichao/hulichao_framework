@@ -1,7 +1,9 @@
 package com.whu.Server;
 
 import java.io.*;
-import java.net.Socket; /**
+import java.net.Socket;
+
+/**
  * Created by hulichao on 2017/11/24
  */
 public class Processor extends Thread{
