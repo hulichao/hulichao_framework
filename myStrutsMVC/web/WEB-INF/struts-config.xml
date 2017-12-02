@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+	<formbeans>
+		<bean name="judge" class="com.whu.struts.bussiness.JudgeForm"/>
+	</formbeans>
+	
+	<action-mapping>
+		<action name="judge" type="com.whu.struts.bussiness.JudgeAction" path="/user">
+			<forward name="success" value="/view/success.jsp">
+			</forward>
+			<forward name="error" value="/view/error.jsp">
+			</forward>
+		</action>
+	</action-mapping>
+</xml-body>
