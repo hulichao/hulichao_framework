@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database><table name="dog" />
+    <table name="cat">
+        
+    <data>{"money":0.0,"sex":"男","name":"lallal","_uuid":"e2893ff7-f093-4aac-8e62-a76e545e908c","age":28.0}</data>
+    </table>
+    <table name="pig" />
+</database>
