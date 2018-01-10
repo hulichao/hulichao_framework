@@ -151,8 +151,6 @@ public class YBatisHandler implements InvocationHandler {
     /**
      * 把批量处理的结果拼接起来
      *
-     * @Author JueYue
-     * @date 2013-11-17
      */
     private void addResulArray(int[] result, int index, int[] arr) {
         int length = arr.length;
@@ -164,8 +162,6 @@ public class YBatisHandler implements InvocationHandler {
     /**
      * 批处理
      *
-     * @Author JueYue
-     * @date 2013-11-17
      * @return
      */
     private int[] batchUpdate(String executeSql) {
@@ -256,10 +252,10 @@ public class YBatisHandler implements InvocationHandler {
         // step.4.调用SpringJdbc引擎，执行SQL返回值
         // 5.1获取返回值类型[Map/Object/List<Object>/List<Map>/基本类型]
         String methodName = method.getName();
-        //update-begin---author:hulichao----date:20160906------for:增加通过sql判断是否非查询操作--------
+        //增加通过sql判断是否非查询操作--------
         // 判斷是否非查詢方法
         if (checkActiveKey(methodName) || checkActiveSql(executeSql)) {
-            //update-end---author:hulichao----date:20160906------for:增加通过sql判断是否非查询操作--------
+            //增加通过sql判断是否非查询操作--------
             if (paramMap != null) {
                 return namedParameterJdbcTemplate.update(executeSql, paramMap);
             } else {
@@ -271,10 +267,10 @@ public class YBatisHandler implements InvocationHandler {
             // 如果是查詢操作
             Class<?> returnType = method.getReturnType();
             if (returnType.isPrimitive()) {
-                //update-begin---author:hulichao----date:20160906------for:修复非包装类型，无法传参数问题--------
+                //修复非包装类型，无法传参数问题--------
                 Number number = namedParameterJdbcTemplate.queryForObject(executeSql, paramMap, BigDecimal.class);
                 //jdbcTemplate.queryForObject(executeSql, BigDecimal.class);
-                //update-begin---author:hulichao----date:20160906------for:修复非包装类型，无法传参数问题--------
+                //修复非包装类型，无法传参数问题--------
 
                 if ("int".equals(returnType.getCanonicalName())) {
                     return number.intValue();
@@ -330,11 +326,11 @@ public class YBatisHandler implements InvocationHandler {
                     return jdbcTemplate.queryForObject(executeSql, returnType);
                 }
             } else {
-                //---update-begin--author:hulichao---date:20160909----for:支持spring4---------
+                //支持spring4---------
                 // 对象类型
                 RowMapper<?> rm = BeanPropertyRowMapper.newInstance(returnType);
                 //RowMapper<?> rm = ParameterizedBeanPropertyRowMapper.newInstance(returnType);
-                //---update-end--author:hulichao---date:20160909----for:支持spring4---------
+                //支持spring4---------
                 if (paramMap != null) {
                     return namedParameterJdbcTemplate.queryForObject(executeSql, paramMap, rm);
                 } else {
@@ -357,9 +353,9 @@ public class YBatisHandler implements InvocationHandler {
             if (resultType.value().equals(Map.class)) {
                 return getColumnMapRowMapper();
             }
-            //---update-begin--author:hulichao---date:20160909----for:支持spring4---------
+            //支持spring4---------
             return BeanPropertyRowMapper.newInstance(resultType.value());
-            //---update-end--author:hulichao---date:20160909----for:支持spring4---------
+            //支持spring4---------
         }
         String genericReturnType = method.getGenericReturnType().toString();
         String realType = genericReturnType.replace("java.util.List", "").replace("<", "").replace(">", "");
@@ -367,9 +363,9 @@ public class YBatisHandler implements InvocationHandler {
             return getColumnMapRowMapper();
         } else if (realType.length() > 0) {
             try {
-                //---update-begin--author:hulichao---date:20160909----for:支持spring4---------
+                //支持spring4---------
                 return BeanPropertyRowMapper.newInstance(Class.forName(realType));
-                //---update-end--author:hulichao---date:20160909----for:支持spring4---------
+                //支持spring4---------
             } catch (ClassNotFoundException e) {
                 logger.error(e.getMessage(), e.fillInStackTrace());
                 throw new RuntimeException("minidao get class error ,class name is:" + realType);
@@ -391,7 +387,7 @@ public class YBatisHandler implements InvocationHandler {
      * @throws Exception
      */
     private String installDaoMetaData(SimpleDaoPage pageSetting, Method method, Map<String, Object> sqlParamsMap, Object[] args) throws Exception {
-        //update-begin---author:hulichao----date:20160511------for:minidao拦截器逻辑--------
+        //拦截器逻辑--------
         //System.out.println(" -- methodName -- "+ methodName );
         if(yBatisInterceptor!=null && args!= null && args.length==1){
             String methodName = method.getName();
@@ -409,7 +405,7 @@ public class YBatisHandler implements InvocationHandler {
             }
             //reflect(obj);
         }
-        //update-begin---author:hulichao----date:20160511------for:minidao拦截器逻辑--------
+        //拦截器逻辑--------
 
         String templateSql = null;
         // 如果方法参数大于1个的话，方法必须使用注释标签Arguments
@@ -425,21 +421,21 @@ public class YBatisHandler implements InvocationHandler {
             // step.2.将args转换成键值对，封装成Map对象
             int args_num = 0;
             for (String v : arguments.value()) {
-                // update-begin--Author:fancq Date:20140102 for：支持多数据分页
+                //支持多数据分页
                 if (v.equalsIgnoreCase("page")) {
                     pageSetting.setPage(Integer.parseInt(args[args_num].toString()));
                 }
                 if (v.equalsIgnoreCase("rows")) {
                     pageSetting.setRows(Integer.parseInt(args[args_num].toString()));
                 }
-                // update-end--Author:fancq Date:20140102 for：支持多数据分页
+                // 支持多数据分页
                 sqlParamsMap.put(v, args[args_num]);
                 args_num++;
             }
         } else {
             // 如果未使用[参数标签]
             if (args != null && args.length >= 1) {
-                //---update-begin----author:hulichao-----date:20160302-----for:支持新参数注解写法--------------
+                //支持新参数注解写法--------------
                 String[] params = ParameterNameUtils.getMethodParameterNamesByAnnotation(method);
                 if(params==null || params.length==0){
                     throw new Exception("方法参数数目>=2，必须使用：方法标签@Arguments 或  参数标签@param");
@@ -461,7 +457,7 @@ public class YBatisHandler implements InvocationHandler {
                     sqlParamsMap.put(v, args[args_num]);
                     args_num++;
                 }
-                //---update-end----author:hulichao-----date:20160302-----for:支持新参数注解写法--------------
+                //--支持新参数注解写法--------------
             } else if (args != null && args.length == 1) {
                 // step.2.将args转换成键值对，封装成Map对象
                 sqlParamsMap.put(YBatisConstants.SQL_FTL_DTO, args[0]);
@@ -490,9 +486,9 @@ public class YBatisHandler implements InvocationHandler {
      */
     private Map<String, Object> installPlaceholderSqlParam(String executeSql, Map sqlParamsMap) throws OgnlException {
         Map<String, Object> map = new HashMap<String, Object>();
-        //update-begin---author:hulichao----date:20160906------for:参数不支持下划线解决--------
+        //参数不支持下划线解决--------
         String regEx = ":[ tnx0Bfr]*[0-9a-z.A-Z_]+"; // 表示以：开头，[0-9或者.或者A-Z大小都写]的任意字符，超过一个
-        //update-begin---author:hulichao----date:20160906------for:参数不支持下划线解决--------
+        //参数不支持下划线解决--------
         Pattern pat = Pattern.compile(regEx);
         Matcher m = pat.matcher(executeSql);
         while (m.find()) {
@@ -535,7 +531,7 @@ public class YBatisHandler implements InvocationHandler {
         return executeSql;
     }
 
-    //update-begin--Author:luobaoli  Date:20150710 for：增加存储过程入参解析方法
+    //增加存储过程入参解析方法
     /**
      * 将解析参数的代码单独抽取出来
      * @param method
@@ -565,7 +561,7 @@ public class YBatisHandler implements InvocationHandler {
         }
         return procedureParamsList;
     }
-    //update-begin--Author:luobaoli  Date:20150710 for：增加存储过程入参解析方法
+    //增加存储过程入参解析方法
 
     public void setDbType(String dbType) {
         this.dbType = dbType;
