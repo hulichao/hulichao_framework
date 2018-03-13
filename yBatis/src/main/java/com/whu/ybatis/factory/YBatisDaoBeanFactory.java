@@ -11,6 +11,7 @@ import java.lang.reflect.Proxy;
 public class YBatisDaoBeanFactory<T> implements FactoryBean<T> {
     private Class<T> daoInterface;
 
+
     private YBatisHandler proxy;
 
     public T getObject() throws Exception {
