@@ -204,7 +204,7 @@ public class YBatisHandler implements InvocationHandler {
     private String getCountSql(String sql) {
         //update-begin---author:hulichao----
         sql = removeOrderBy(sql);
-        //update-end---author:hulichao----date:20170803------for:分页count去掉排序，兼容SqlServer，同时提高效率--------
+        //update-end---author:hulichao----------for:分页count去掉排序，兼容SqlServer，同时提高效率--------
         return "select count(0) from (" + sql + ") tmp_count";
     }
 
