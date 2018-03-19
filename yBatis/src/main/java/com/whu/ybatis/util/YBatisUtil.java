@@ -51,7 +51,7 @@ public class YBatisUtil {
         String jdbcType = dbType;
         if (jdbcType == null || "".equals(jdbcType)) {
             throw new RuntimeException(
-                    "org.jeecgframework.minidao.aop.MiniDaoHandler:(数据库类型:dbType)没有设置,请检查配置文件");
+                    "org.whu.YbatisDaoHandler:(数据库类型:dbType)没有设置,请检查配置文件");
         }
         if (jdbcType.indexOf(DATABSE_TYPE_MYSQL) != -1) {
             sql = MessageFormat.format(MYSQL_SQL, sqlParam);
