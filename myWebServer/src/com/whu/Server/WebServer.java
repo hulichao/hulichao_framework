@@ -3,18 +3,23 @@ package com.whu.Server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by hulichao on 2017/11/24
  */
 public class WebServer {
 
+    ExecutorService pool = Executors.newCachedThreadPool();
     public void serverStart(int port){
             try {
                 ServerSocket serverSocket = new ServerSocket(port);
+                System.out.println("服务器启动。。。端口：" + port);
                 while(true){
                     Socket socket = serverSocket.accept();
-                    new Processor(socket).start();
+                    pool.execute(new Processor(socket));
+//                    new Processor(socket).start();
                 }
             } catch  (IOException e) {
                 e.printStackTrace();

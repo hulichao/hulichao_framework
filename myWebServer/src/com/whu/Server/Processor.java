@@ -6,13 +6,13 @@ import java.net.Socket;
 /**
  * Created by hulichao on 2017/11/24
  */
-public class Processor extends Thread {
+public class Processor implements Runnable {
 
     private static int vistorNum = 0;
     private Socket socket;
     private InputStream in;
     private PrintStream out;
-    public final static String WEB_ROOT = "J:\\Hu_work\\tools\\hulichao_framework\\web\\htmDoc";
+    public final static String WEB_ROOT = "J:\\Hu_work\\tools\\idea_workpace\\hulichao_framework\\myWebServer\\web\\htmDoc";
 
     public Processor(Socket socket) {
         this.socket = socket;
@@ -51,7 +51,7 @@ public class Processor extends Thread {
 
     public void sendErrorMessage(int errorCode, String errorMessage) {
         out.println("HTTP/1.0 " + errorCode + " " + errorMessage);
-        out.println("content-type:text/html");
+        out.println("content-type:text/html;charset=utf-8");
         out.println("<html>");
         out.println("<head>");
         out.println("<title> ERROR MESSAGE");
@@ -85,6 +85,7 @@ public class Processor extends Thread {
             out.println("content-length:" + content.length);
             out.println();
             out.write(content);
+            System.out.println(content);
             out.flush();
             out.close();
             in.close();
